@@ -1,5 +1,5 @@
-import React, { Dispatch, SetStateAction, useCallback, useState } from "react";
-import { StyleSheet, Text, TouchableOpacity, View, Image } from "react-native";
+import React, { Dispatch, SetStateAction, useCallback } from "react";
+import { StyleSheet, View, Image, Pressable } from "react-native";
 import o from "../../assets/o.png";
 import x from "../../assets/x.png";
 import { ValuesProps } from "../Top";
@@ -34,76 +34,75 @@ function Box({
   ];
 
   const handlePress = useCallback(() => {
-    if (!finishedToggle) {
-      return setValues({ ...values });
-    }
-    if (!valuesArray[position]) {
-      if (turnToggle) {
-        switch (position) {
-          case 0:
-            setValues({ ...values, zero: "o" });
-            break;
-          case 1:
-            setValues({ ...values, one: "o" });
-            break;
-          case 2:
-            setValues({ ...values, two: "o" });
-            break;
-          case 3:
-            setValues({ ...values, three: "o" });
-            break;
-          case 4:
-            setValues({ ...values, four: "o" });
-            break;
-          case 5:
-            setValues({ ...values, five: "o" });
-            break;
-          case 6:
-            setValues({ ...values, six: "o" });
-            break;
-          case 7:
-            setValues({ ...values, seven: "o" });
-            break;
-          case 8:
-            setValues({ ...values, eight: "o" });
-            break;
-          default:
-            break;
+    if (finishedToggle) {
+      if (!valuesArray[position]) {
+        if (turnToggle) {
+          switch (position) {
+            case 0:
+              setValues({ ...values, zero: "o" });
+              break;
+            case 1:
+              setValues({ ...values, one: "o" });
+              break;
+            case 2:
+              setValues({ ...values, two: "o" });
+              break;
+            case 3:
+              setValues({ ...values, three: "o" });
+              break;
+            case 4:
+              setValues({ ...values, four: "o" });
+              break;
+            case 5:
+              setValues({ ...values, five: "o" });
+              break;
+            case 6:
+              setValues({ ...values, six: "o" });
+              break;
+            case 7:
+              setValues({ ...values, seven: "o" });
+              break;
+            case 8:
+              setValues({ ...values, eight: "o" });
+              break;
+            default:
+              break;
+          }
+        } else {
+          switch (position) {
+            case 0:
+              setValues({ ...values, zero: "x" });
+              break;
+            case 1:
+              setValues({ ...values, one: "x" });
+              break;
+            case 2:
+              setValues({ ...values, two: "x" });
+              break;
+            case 3:
+              setValues({ ...values, three: "x" });
+              break;
+            case 4:
+              setValues({ ...values, four: "x" });
+              break;
+            case 5:
+              setValues({ ...values, five: "x" });
+              break;
+            case 6:
+              setValues({ ...values, six: "x" });
+              break;
+            case 7:
+              setValues({ ...values, seven: "x" });
+              break;
+            case 8:
+              setValues({ ...values, eight: "x" });
+              break;
+            default:
+              break;
+          }
         }
-      } else {
-        switch (position) {
-          case 0:
-            setValues({ ...values, zero: "x" });
-            break;
-          case 1:
-            setValues({ ...values, one: "x" });
-            break;
-          case 2:
-            setValues({ ...values, two: "x" });
-            break;
-          case 3:
-            setValues({ ...values, three: "x" });
-            break;
-          case 4:
-            setValues({ ...values, four: "x" });
-            break;
-          case 5:
-            setValues({ ...values, five: "x" });
-            break;
-          case 6:
-            setValues({ ...values, six: "x" });
-            break;
-          case 7:
-            setValues({ ...values, seven: "x" });
-            break;
-          case 8:
-            setValues({ ...values, eight: "x" });
-            break;
-          default:
-            break;
-        }
+        setTurnToggle(!turnToggle);
       }
-      setTurnToggle(!turnToggle);
     }
   }, [finishedToggle, values, turnToggle, position]);
 
@@ -120,9 +119,9 @@ function Box({
 
   return (
     <View>
-      <TouchableOpacity style={styles.inner} onPress={handlePress}>
+      <Pressable style={styles.inner} onPress={handlePress}>
         {showValueImage()}
-      </TouchableOpacity>
+      </Pressable>
     </View>
   );
 }

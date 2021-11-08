@@ -1,19 +1,14 @@
-import React, {
-  Dispatch,
-  SetStateAction,
-  useCallback,
-  useEffect,
-  useState,
-} from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import React, { Dispatch, SetStateAction, useEffect } from "react";
+import { StyleSheet, Text } from "react-native";
 import { ValuesProps } from "../Top";
 
 export type ResultProps = {
   values: ValuesProps;
   setFinishedToggle: Dispatch<SetStateAction<boolean>>;
+  turnToggle: boolean;
 };
 
-function Result({ values, setFinishedToggle }: ResultProps) {
+function Result({ values, setFinishedToggle, turnToggle }: ResultProps) {
   const judge = () => {
     if (values.four === "o") {
       if (values.four === values.zero && values.four === values.eight) {
@@ -91,7 +86,10 @@ function Result({ values, setFinishedToggle }: ResultProps) {
         return "後手番の勝利です";
       }
     }
-    return null;
+    if (turnToggle) {
+      return "先手番です";
+    }
+    return "後手番です";
   };
 
   return <Text style={styles.text}>{judge()}</Text>;

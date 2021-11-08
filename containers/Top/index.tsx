@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { Table, Row, Rows } from "react-native-table-component";
+import { Table, Rows } from "react-native-table-component";
 import Box from "../Box";
 import Result from "../Result";
 
@@ -70,9 +70,11 @@ function Top() {
 
   return (
     <View>
-      <Text style={styles.textStyle}>
-        {turnToggle ? "先手番です" : "後手番です"}
-      </Text>
+      <Result
+        values={values}
+        setFinishedToggle={setFinishedToggle}
+        turnToggle={turnToggle}
+      />
       <View style={styles.container}>
         <Table borderStyle={styles.tableStyle}>
           <Rows data={boxArray} />
@@ -84,7 +86,6 @@ function Top() {
       >
         <Text style={styles.clearButton}>やりなおす</Text>
       </TouchableOpacity>
-      <Result values={values} setFinishedToggle={setFinishedToggle} />
     </View>
   );
 }
