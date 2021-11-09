@@ -1,5 +1,11 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  Dimensions,
+} from "react-native";
 import { Table, Rows } from "react-native-table-component";
 import Box from "../Box";
 import Result from "../Result";
@@ -69,12 +75,14 @@ function Top() {
   }, []);
 
   return (
-    <View>
-      <Result
-        values={values}
-        setFinishedToggle={setFinishedToggle}
-        turnToggle={turnToggle}
-      />
+    <View style={styles.wrapper}>
+      <Text style={styles.titleText}>
+        <Result
+          values={values}
+          setFinishedToggle={setFinishedToggle}
+          turnToggle={turnToggle}
+        />
+      </Text>
       <View style={styles.container}>
         <Table borderStyle={styles.tableStyle}>
           <Rows data={boxArray} />
@@ -92,10 +100,11 @@ function Top() {
 
 const styles = StyleSheet.create({
   wrapper: {
-    display: "flex",
-    flexDirection: "row",
+    alignContent: "center",
+    // backgroundColor: "#afa",
+    justifyContent: "center",
   },
-  textStyle: {
+  titleText: {
     textAlign: "center",
     margin: 10,
     fontSize: 20,

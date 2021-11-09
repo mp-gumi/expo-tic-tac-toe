@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useCallback } from "react";
+import React, { Dispatch, SetStateAction, useCallback, useMemo } from "react";
 import { StyleSheet, View, Image, Pressable } from "react-native";
 import o from "../../assets/o.png";
 import x from "../../assets/x.png";
@@ -21,17 +21,20 @@ function Box({
   position,
   finishedToggle,
 }: BoxProps) {
-  const valuesArray = [
-    values.zero,
-    values.one,
-    values.two,
-    values.three,
-    values.four,
-    values.five,
-    values.six,
-    values.seven,
-    values.eight,
-  ];
+  const valuesArray = useMemo(
+    () => [
+      values.zero,
+      values.one,
+      values.two,
+      values.three,
+      values.four,
+      values.five,
+      values.six,
+      values.seven,
+      values.eight,
+    ],
+    [values]
+  );
 
   const handlePress = useCallback(() => {
     if (finishedToggle) {
@@ -118,11 +121,9 @@ function Box({
   }, [valuesArray, position]);
 
   return (
-    <View>
-      <Pressable style={styles.inner} onPress={handlePress}>
-        {showValueImage()}
-      </Pressable>
-    </View>
+    <Pressable style={styles.inner} onPress={handlePress}>
+      {showValueImage()}
+    </Pressable>
   );
 }
 

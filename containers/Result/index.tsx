@@ -1,5 +1,5 @@
 import React, { Dispatch, SetStateAction, useEffect } from "react";
-import { StyleSheet, Text } from "react-native";
+import { Text } from "react-native";
 import { ValuesProps } from "../Top";
 
 export type ResultProps = {
@@ -9,82 +9,62 @@ export type ResultProps = {
 };
 
 function Result({ values, setFinishedToggle, turnToggle }: ResultProps) {
+  const { zero, one, two, three, four, five, six, seven, eight } = values;
   const judge = () => {
-    if (values.four === "o") {
-      if (values.four === values.zero && values.four === values.eight) {
-        useEffect(() => setFinishedToggle(false), []);
-        return "先手番の勝利です";
-      }
-      if (values.four === values.two && values.four === values.six) {
-        useEffect(() => setFinishedToggle(false), []);
-        return "先手番の勝利です";
-      }
-      if (values.four === values.one && values.four === values.seven) {
-        useEffect(() => setFinishedToggle(false), []);
-        return "先手番の勝利です";
-      }
-      if (values.four === values.three && values.four === values.five) {
+    if (four === "o") {
+      if (
+        (four === zero && four === eight) ||
+        (four === two && four === six) ||
+        (four === one && four === seven) ||
+        (four === three && four === five)
+      ) {
         useEffect(() => setFinishedToggle(false), []);
         return "先手番の勝利です";
       }
     }
-    if (values.zero === "o") {
-      if (values.zero === values.one && values.zero === values.two) {
-        useEffect(() => setFinishedToggle(false), []);
-        return "先手番の勝利です";
-      }
-      if (values.zero === values.three && values.zero === values.six) {
+    if (zero === "o") {
+      if ((zero === one && zero === two) || (zero === three && zero === six)) {
         useEffect(() => setFinishedToggle(false), []);
         return "先手番の勝利です";
       }
     }
-    if (values.eight === "o") {
-      if (values.eight === values.two && values.eight === values.five) {
+    if (eight === "o") {
+      if (
+        (eight === two && eight === five) ||
+        (eight === six && eight === seven)
+      ) {
         useEffect(() => setFinishedToggle(false), []);
         return "先手番の勝利です";
       }
-      if (values.eight === values.six && values.eight === values.seven) {
-        useEffect(() => setFinishedToggle(false), []);
-        return "先手番の勝利です";
-      }
     }
-    if (values.four === "x") {
-      if (values.four === values.zero && values.four === values.eight) {
-        useEffect(() => setFinishedToggle(false), []);
-        return "後手番の勝利です";
-      }
-      if (values.four === values.two && values.four === values.six) {
-        useEffect(() => setFinishedToggle(false), []);
-        return "後手番の勝利です";
-      }
-      if (values.four === values.one && values.four === values.seven) {
-        useEffect(() => setFinishedToggle(false), []);
-        return "後手番の勝利です";
-      }
-      if (values.four === values.three && values.four === values.five) {
+    if (four === "x") {
+      if (
+        (four === zero && four === eight) ||
+        (four === two && four === six) ||
+        (four === one && four === seven) ||
+        (four === three && four === five)
+      ) {
         useEffect(() => setFinishedToggle(false), []);
         return "後手番の勝利です";
       }
     }
-    if (values.zero === "x") {
-      if (values.zero === values.one && values.zero === values.two) {
-        useEffect(() => setFinishedToggle(false), []);
-        return "後手番の勝利です";
-      }
-      if (values.zero === values.three && values.zero === values.six) {
+    if (zero === "x") {
+      if ((zero === one && zero === two) || (zero === three && zero === six)) {
         useEffect(() => setFinishedToggle(false), []);
         return "後手番の勝利です";
       }
     }
-    if (values.eight === "x") {
-      if (values.eight === values.two && values.eight === values.five) {
+    if (eight === "x") {
+      if (
+        (eight === two && eight === five) ||
+        (eight === six && eight === seven)
+      ) {
         useEffect(() => setFinishedToggle(false), []);
         return "後手番の勝利です";
       }
-      if (values.eight === values.six && values.eight === values.seven) {
-        useEffect(() => setFinishedToggle(false), []);
-        return "後手番の勝利です";
-      }
+    }
+    if (zero && one && two && three && four && five && six && seven && eight) {
+      return "引き分けです";
     }
     if (turnToggle) {
       return "先手番です";
@@ -92,11 +72,7 @@ function Result({ values, setFinishedToggle, turnToggle }: ResultProps) {
     return "後手番です";
   };
 
-  return <Text style={styles.text}>{judge()}</Text>;
+  return <Text>{judge()}</Text>;
 }
-
-const styles = StyleSheet.create({
-  text: { textAlign: "center", margin: 10, fontSize: 20 },
-});
 
 export default Result;
