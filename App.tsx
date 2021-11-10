@@ -1,12 +1,36 @@
 import React from "react";
-import { StyleSheet, View } from "react-native";
-import Top from "./containers/Top";
+import { StyleSheet, View, Text } from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import TicTacToeTop from "./containers/TicTacToeTop";
+import OthelloTop from "./containers/OthelloTop";
+
+const Stack = createNativeStackNavigator();
+
+const TicTacToeScreen = () => {
+  return (
+    <View style={styles.container}>
+      <TicTacToeTop />
+    </View>
+  );
+};
+
+const OthelloScreen = () => {
+  return (
+    <View style={styles.container}>
+      <OthelloTop />
+    </View>
+  );
+};
 
 function App() {
   return (
-    <View style={styles.container}>
-      <Top />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="TicTacToe" component={TicTacToeScreen} />
+        <Stack.Screen name="Othello" component={OthelloScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 

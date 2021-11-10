@@ -1,6 +1,6 @@
 import React, { Dispatch, SetStateAction, useEffect } from "react";
 import { Text } from "react-native";
-import { ValuesProps } from "../Top";
+import { ValuesProps } from "../TicTacToeTop";
 
 export type ResultProps = {
   values: ValuesProps;
@@ -8,7 +8,11 @@ export type ResultProps = {
   turnToggle: boolean;
 };
 
-function Result({ values, setFinishedToggle, turnToggle }: ResultProps) {
+function TicTacToeResult({
+  values,
+  setFinishedToggle,
+  turnToggle,
+}: ResultProps) {
   const { zero, one, two, three, four, five, six, seven, eight } = values;
   const judge = () => {
     if (four === "o") {
@@ -75,4 +79,4 @@ function Result({ values, setFinishedToggle, turnToggle }: ResultProps) {
   return <Text>{judge()}</Text>;
 }
 
-export default Result;
+export default TicTacToeResult;

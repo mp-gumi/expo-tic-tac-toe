@@ -2,7 +2,7 @@ import React, { Dispatch, SetStateAction, useCallback, useMemo } from "react";
 import { StyleSheet, View, Image, Pressable } from "react-native";
 import o from "../../assets/o.png";
 import x from "../../assets/x.png";
-import { ValuesProps } from "../Top";
+import { ValuesProps } from "../TicTacToeTop";
 
 export type BoxProps = {
   turnToggle: boolean;
@@ -13,7 +13,7 @@ export type BoxProps = {
   finishedToggle: boolean;
 };
 
-function Box({
+function TicTacToeBox({
   turnToggle,
   setTurnToggle,
   values,
@@ -142,4 +142,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Box;
+export default TicTacToeBox;

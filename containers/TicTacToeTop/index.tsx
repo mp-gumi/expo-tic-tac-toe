@@ -1,14 +1,8 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
-import {
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-  Dimensions,
-} from "react-native";
+import React, { useCallback, useMemo, useState } from "react";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Table, Rows } from "react-native-table-component";
-import Box from "../Box";
-import Result from "../Result";
+import TicTacToeBox from "../TicTacToeBox";
+import TicTacToeResult from "../TicTacToeResult";
 
 export type ValuesProps = {
   zero: string | null;
@@ -22,7 +16,7 @@ export type ValuesProps = {
   eight: string | null;
 };
 
-function Top() {
+function TicTacToeTop() {
   const [turnToggle, setTurnToggle] = useState(true);
   const [finishedToggle, setFinishedToggle] = useState(true);
   const [values, setValues] = useState<ValuesProps>({
@@ -45,7 +39,7 @@ function Top() {
         [6, 7, 8],
       ].map((array) =>
         array.map((value) => (
-          <Box
+          <TicTacToeBox
             turnToggle={turnToggle}
             setTurnToggle={setTurnToggle}
             values={values}
@@ -77,7 +71,7 @@ function Top() {
   return (
     <View style={styles.wrapper}>
       <Text style={styles.titleText}>
-        <Result
+        <TicTacToeResult
           values={values}
           setFinishedToggle={setFinishedToggle}
           turnToggle={turnToggle}
@@ -101,7 +95,6 @@ function Top() {
 const styles = StyleSheet.create({
   wrapper: {
     alignContent: "center",
-    // backgroundColor: "#afa",
     justifyContent: "center",
   },
   titleText: {
@@ -134,4 +127,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Top;
+export default TicTacToeTop;
