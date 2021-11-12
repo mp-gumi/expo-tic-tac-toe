@@ -1,25 +1,33 @@
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Table, Rows } from "react-native-table-component";
 import TicTacToeBox from "../TicTacToeBox";
 import TicTacToeResult from "../TicTacToeResult";
 
-export type ValuesProps = {
-  zero: string | null;
-  one: string | null;
-  two: string | null;
-  three: string | null;
-  four: string | null;
-  five: string | null;
-  six: string | null;
-  seven: string | null;
-  eight: string | null;
+type Symbol = "o" | "x";
+type JudgeResultMessage =
+  | "先手番の勝利です"
+  | "後手番の勝利です"
+  | "引き分けです"
+  | "先手番です"
+  | "後手番です";
+
+export type Board = {
+  zero: Symbol | null;
+  one: Symbol | null;
+  two: Symbol | null;
+  three: Symbol | null;
+  four: Symbol | null;
+  five: Symbol | null;
+  six: Symbol | null;
+  seven: Symbol | null;
+  eight: Symbol | null;
 };
 
 function TicTacToeTop() {
-  const [turnToggle, setTurnToggle] = useState(true);
-  const [finishedToggle, setFinishedToggle] = useState(true);
-  const [values, setValues] = useState<ValuesProps>({
+  const [isFirstMove, setIsFirstMove] = useState(true);
+  const [finishedToggle, setFinishedToggle] = useState(false);
+  const [values, setValues] = useState<Board>({
     zero: null,
     one: null,
     two: null,
@@ -34,25 +42,25 @@ function TicTacToeTop() {
   const boxArray = useMemo(
     () =>
       [
-        [0, 1, 2],
-        [3, 4, 5],
-        [6, 7, 8],
+        ["zero", "one", "two"] as const,
+        ["three", "four", "five"] as const,
+        ["six", "seven", "eight"] as const,
       ].map((array) =>
         array.map((value) => (
           <TicTacToeBox
-            turnToggle={turnToggle}
-            setTurnToggle={setTurnToggle}
+            isFirstMove={isFirstMove}
+            setIsFirstMove={setIsFirstMove}
             values={values}
             setValues={setValues}
             position={value}
-            finishedToggle={finishedToggle}
+            isGameSet={isGameSet(resultMessage)}
           />
         ))
       ),
-    [turnToggle, values, finishedToggle]
+    [isFirstMove, values, isGameSet]
   );
 
-  const deleteResult = useCallback(() => {
+  const initializeBoard = useCallback(() => {
     setValues({
       zero: null,
       one: null,
@@ -64,18 +72,17 @@ function TicTacToeTop() {
       seven: null,
       eight: null,
     });
-    setTurnToggle(true);
+    setIsFirstMove(true);
     setFinishedToggle(true);
   }, []);
+
+  const resultMessage = judgeResult({ values, isFirstMove });
+  console.log({ isFirstMove, values, isGameSet });
 
   return (
     <View style={styles.wrapper}>
       <Text style={styles.titleText}>
-        <TicTacToeResult
-          values={values}
-          setFinishedToggle={setFinishedToggle}
-          turnToggle={turnToggle}
-        />
+        <TicTacToeResult resultMessage={resultMessage} />
       </Text>
       <View style={styles.container}>
         <Table borderStyle={styles.tableStyle}>
@@ -83,7 +90,7 @@ function TicTacToeTop() {
         </Table>
       </View>
       <TouchableOpacity
-        onPress={deleteResult}
+        onPress={initializeBoard}
         style={styles.clearButtonWrapper}
       >
         <Text style={styles.clearButton}>やりなおす</Text>
@@ -91,6 +98,80 @@ function TicTacToeTop() {
     </View>
   );
 }
+
+const judgeResult = ({
+  values,
+  isFirstMove,
+}: {
+  values: Board;
+  isFirstMove: boolean;
+}): JudgeResultMessage => {
+  const { zero, one, two, three, four, five, six, seven, eight } = values;
+  if (four === "o") {
+    if (
+      (four === zero && four === eight) ||
+      (four === two && four === six) ||
+      (four === one && four === seven) ||
+      (four === three && four === five)
+    ) {
+      return "先手番の勝利です";
+    }
+  }
+  if (zero === "o") {
+    if ((zero === one && zero === two) || (zero === three && zero === six)) {
+      return "先手番の勝利です";
+    }
+  }
+  if (eight === "o") {
+    if (
+      (eight === two && eight === five) ||
+      (eight === six && eight === seven)
+    ) {
+      return "先手番の勝利です";
+    }
+  }
+  if (four === "x") {
+    if (
+      (four === zero && four === eight) ||
+      (four === two && four === six) ||
+      (four === one && four === seven) ||
+      (four === three && four === five)
+    ) {
+      return "後手番の勝利です";
+    }
+  }
+  if (zero === "x") {
+    if ((zero === one && zero === two) || (zero === three && zero === six)) {
+      return "後手番の勝利です";
+    }
+  }
+  if (eight === "x") {
+    if (
+      (eight === two && eight === five) ||
+      (eight === six && eight === seven)
+    ) {
+      return "後手番の勝利です";
+    }
+  }
+  if (zero && one && two && three && four && five && six && seven && eight) {
+    return "引き分けです";
+  }
+  if (isFirstMove) {
+    return "先手番です";
+  }
+  return "後手番です";
+};
+
+const isGameSet = (resultMessage: JudgeResultMessage): boolean => {
+  if (
+    resultMessage === "先手番の勝利です" ||
+    resultMessage === "後手番の勝利です" ||
+    resultMessage === "引き分けです"
+  ) {
+    return true;
+  }
+  return false;
+};
 
 const styles = StyleSheet.create({
   wrapper: {

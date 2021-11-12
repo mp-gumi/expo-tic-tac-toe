@@ -2,115 +2,102 @@ import React, { Dispatch, SetStateAction, useCallback, useMemo } from "react";
 import { StyleSheet, View, Image, Pressable } from "react-native";
 import o from "../../assets/o.png";
 import x from "../../assets/x.png";
-import { ValuesProps } from "../TicTacToeTop";
+import { Board } from "../TicTacToeTop";
 
 export type BoxProps = {
-  turnToggle: boolean;
-  setTurnToggle: Dispatch<SetStateAction<boolean>>;
-  values: ValuesProps;
-  setValues: Dispatch<SetStateAction<ValuesProps>>;
-  position: number;
-  finishedToggle: boolean;
+  isFirstMove: boolean;
+  setIsFirstMove: Dispatch<SetStateAction<boolean>>;
+  values: Board;
+  setValues: Dispatch<SetStateAction<Board>>;
+  position: keyof Board;
+  isGameSet: boolean;
 };
 
 function TicTacToeBox({
-  turnToggle,
-  setTurnToggle,
+  isFirstMove,
+  setIsFirstMove,
   values,
   setValues,
   position,
-  finishedToggle,
+  isGameSet,
 }: BoxProps) {
-  const valuesArray = useMemo(
-    () => [
-      values.zero,
-      values.one,
-      values.two,
-      values.three,
-      values.four,
-      values.five,
-      values.six,
-      values.seven,
-      values.eight,
-    ],
-    [values]
-  );
-
   const handlePress = useCallback(() => {
-    if (finishedToggle) {
-      if (!valuesArray[position]) {
-        if (turnToggle) {
-          switch (position) {
-            case 0:
-              setValues({ ...values, zero: "o" });
-              break;
-            case 1:
-              setValues({ ...values, one: "o" });
-              break;
-            case 2:
-              setValues({ ...values, two: "o" });
-              break;
-            case 3:
-              setValues({ ...values, three: "o" });
-              break;
-            case 4:
-              setValues({ ...values, four: "o" });
-              break;
-            case 5:
-              setValues({ ...values, five: "o" });
-              break;
-            case 6:
-              setValues({ ...values, six: "o" });
-              break;
-            case 7:
-              setValues({ ...values, seven: "o" });
-              break;
-            case 8:
-              setValues({ ...values, eight: "o" });
-              break;
-            default:
-              break;
-          }
-        } else {
-          switch (position) {
-            case 0:
-              setValues({ ...values, zero: "x" });
-              break;
-            case 1:
-              setValues({ ...values, one: "x" });
-              break;
-            case 2:
-              setValues({ ...values, two: "x" });
-              break;
-            case 3:
-              setValues({ ...values, three: "x" });
-              break;
-            case 4:
-              setValues({ ...values, four: "x" });
-              break;
-            case 5:
-              setValues({ ...values, five: "x" });
-              break;
-            case 6:
-              setValues({ ...values, six: "x" });
-              break;
-            case 7:
-              setValues({ ...values, seven: "x" });
-              break;
-            case 8:
-              setValues({ ...values, eight: "x" });
-              break;
-            default:
-              break;
-          }
-        }
-        setTurnToggle(!turnToggle);
+    if (isGameSet) {
+      return;
+    }
+    if (values[position]) {
+      return;
+    }
+    if (isFirstMove) {
+      switch (position) {
+        case "zero":
+          setValues({ ...values, zero: "o" });
+          break;
+        case "one":
+          setValues({ ...values, one: "o" });
+          break;
+        case "two":
+          setValues({ ...values, two: "o" });
+          break;
+        case "three":
+          setValues({ ...values, three: "o" });
+          break;
+        case "four":
+          setValues({ ...values, four: "o" });
+          break;
+        case "five":
+          setValues({ ...values, five: "o" });
+          break;
+        case "six":
+          setValues({ ...values, six: "o" });
+          break;
+        case "seven":
+          setValues({ ...values, seven: "o" });
+          break;
+        case "eight":
+          setValues({ ...values, eight: "o" });
+          break;
+        default:
+          break;
+      }
+    } else {
+      switch (position) {
+        case "zero":
+          setValues({ ...values, zero: "x" });
+          break;
+        case "one":
+          setValues({ ...values, one: "x" });
+          break;
+        case "two":
+          setValues({ ...values, two: "x" });
+          break;
+        case "three":
+          setValues({ ...values, three: "x" });
+          break;
+        case "four":
+          setValues({ ...values, four: "x" });
+          break;
+        case "five":
+          setValues({ ...values, five: "x" });
+          break;
+        case "six":
+          setValues({ ...values, six: "x" });
+          break;
+        case "seven":
+          setValues({ ...values, seven: "x" });
+          break;
+        case "eight":
+          setValues({ ...values, eight: "x" });
+          break;
+        default:
+          break;
       }
     }
-  }, [finishedToggle, values, turnToggle, position]);
+    setIsFirstMove((prev) => !prev);
+  }, [isGameSet, values, isFirstMove, position]);
 
   const showValueImage = useCallback(() => {
-    switch (valuesArray[position]) {
+    switch (values[position]) {
       case "o":
         return <Image source={o} style={styles.valueImage} />;
       case "x":
@@ -118,7 +105,7 @@ function TicTacToeBox({
       default:
         return null;
     }
-  }, [valuesArray, position]);
+  }, [values, position]);
 
   return (
     <Pressable style={styles.inner} onPress={handlePress}>
